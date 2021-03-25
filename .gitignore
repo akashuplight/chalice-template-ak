@@ -1,0 +1,12 @@
+# Chalice
+.chalice/deployments/
+.chalice/deployed/
+
+# IDE
+.idea/
+
+# Build/Test Artifacts
+.python-version
+__pycache__/
+build/
+*.xml

@@ -1,0 +1,101 @@
+# Stack Name: chalice-template-infrastructure-{dev-us|stg-us|prod}
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Constructs the infrastructure for the chalice-template project'
+Parameters:
+  Environment:
+    Type: String
+    Description: The stack or environment this resource is assigned to.
+    AllowedValues:
+      - dev
+      - qa
+      - uat
+      - perf
+      - stg
+      - pre-prod
+      - prod
+      - eu-prod
+  Pod:
+    Type: String
+    Description: Pods which are responsible for the the cloud resources.
+    AllowedValues:
+      - hippopodamaus
+      - mavericks
+      - chortleportal
+      - bearmoose
+      - rainforest
+      - alpha
+      - databeez
+      - falcons
+      - dunkin_data
+      - dig
+      - cia
+      - scipi
+      - apiary
+      - math
+      - wfa
+      - mp2
+      - wraz
+      - hubsnubbers
+      - tree_city
+      - lions
+      - hawks
+      - catalysts
+      - ok_google
+      - namche
+  Client:
+    Type: String
+    Description: Please use “shared” if you have multi-tenant on the resources.
+    AllowedValues:
+      - shared
+      - pge
+      - colgas
+      - comed
+      - comed-mno
+  ProductLine:
+    Type: String
+    Description: Product line the expense should be allocated against.
+    AllowedValues:
+      - activate
+      - connect
+      - dxi
+      - engage
+      - orchestrate
+  App:
+    Type: String
+    Description: Please use “shared” if you have multi-tenant on the resources.
+
+Resources:
+  # IAM Roles
+  # S3
+  DeployArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join ['-', ['chalice-template-build-artifacts', !Ref Environment]]
+      Tags:
+        - Key: "env_name"
+          Value: !Ref Environment
+        - Key: "pod_name"
+          Value: !Ref Pod
+        - Key: "client_name"
+          Value: !Ref Client
+        - Key: "product_line"
+          Value: !Ref ProductLine
+        - Key: "app_name"
+          Value: !Ref App
+
+  DeployArtifactBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: DeployArtifactBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:PutObject
+            Effect: "Allow"
+            Resource: !Sub
+              - arn:aws:s3:::${deployArtifactBucket}/*
+              - { deployArtifactBucket: !Ref DeployArtifactBucket }
+            Principal:
+              AWS:
+                - !Sub arn:aws:iam::${AWS::AccountId}:root

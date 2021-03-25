@@ -1,0 +1,34 @@
+{
+  "version": "2.0",
+  "app_name": "chalice-template",
+  "api_gateway_stage": "api",
+  "stages": {
+    "dev-us": {
+      "environment_variables": {
+        "TENDRIL_ENV": "dev-us",
+        "LOG_LEVEL": "INFO"
+      },
+      "autogen_policy": false,
+      "subnet_ids": ["subnet-68456532", "subnet-782c0354", "subnet-782c0354"],
+      "security_group_ids": ["sg-aa2dd4d9"]
+    },
+    "stg-us": {
+      "environment_variables": {
+        "TENDRIL_ENV": "stg-us",
+        "LOG_LEVEL": "INFO"
+      },
+      "autogen_policy": false,
+      "subnet_ids": ["subnet-f648e690", "subnet-3ea46b76", "subnet-37dea36c"],
+      "security_group_ids": ["sg-b81c06c2"]
+    },
+    "prod": {
+      "environment_variables": {
+        "TENDRIL_ENV": "prod",
+        "LOG_LEVEL": "INFO"
+      },
+      "autogen_policy": false,
+      "subnet_ids": ["subnet-2dac5206", "subnet-df28c5a9", "subnet-8dd509d4"],
+      "security_group_ids": ["sg-aa27becc"]
+    }
+  }
+}
