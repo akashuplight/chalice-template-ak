@@ -10,3 +10,7 @@
 __pycache__/
 build/
 *.xml
+
+
+# VS code
+.vscode
